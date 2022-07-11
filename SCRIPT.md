@@ -34,12 +34,12 @@ Begin
 End;
 ```
 
-### 多 will (2022/07/10)
+### 多 will (2022/07/11)
 ```
 input: title("will多","策略名稱");
 input: rvalue(10,"R 值區間");
-value1 = MaxList(high[1],high[2]);
-value2 = MinList(low[1],low[2]);
+value1 = MaxList(getField("high","5"),getField("high","5")[1]);
+value2 = MinList(getField("low","5"),getField("low","5")[1]);
 value3 = value1 - value2;
 value4 = K_Value(9,3);
 value5 = D_Value(9,3);
@@ -51,12 +51,12 @@ Begin
 End;
 ```
 
-### 空 will (2022/07/10)
+### 空 will (2022/07/11)
 ```
 input: title("will空","策略名稱");
 input: rvalue(10,"R 值區間");
-value1 = MaxList(high[1],high[2]);
-value2 = MinList(low[1],low[2]);
+value1 = MaxList(getField("high","5"),getField("high","5")[1]);
+value2 = MinList(getField("low","5"),getField("low","5")[1]);
 value3 = value1 - value2;
 value4 = K_Value(9,3);
 value5 = D_Value(9,3);
