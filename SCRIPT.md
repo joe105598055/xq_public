@@ -34,34 +34,34 @@ Begin
 End;
 ```
 
-### 多 will (2022/07/10)
+### 多 will (2022/07/12)
 ```
 input: title("will多","策略名稱");
 input: rvalue(10,"R 值區間");
-value1 = MaxList(high[1],high[2]);
-value2 = MinList(low[1],low[2]);
+value1 = MaxList(getField("high")[2],getField("high")[1]);
+value2 = MinList(getField("low")[2],getField("low")[1]);
 value3 = value1 - value2;
 value4 = K_Value(9,3);
 value5 = D_Value(9,3);
 
-if(Getfield("Close","tick") > value1 and value3 <= rvalue and value4 > value5) Then
+if(GetQuote("成交") > value1 and value3 <= rvalue) Then
 Begin
     Print(File("C:\Users\sherr\Desktop\XQ\xq.log"),"多單觸發",title,NumToStr(DateTime,0),symbol,NumToStr(Getfield("Close","tick"),0));
     RetVal = 1;
 End;
 ```
 
-### 空 will (2022/07/10)
+### 空 will (2022/07/12)
 ```
 input: title("will空","策略名稱");
 input: rvalue(10,"R 值區間");
-value1 = MaxList(high[1],high[2]);
-value2 = MinList(low[1],low[2]);
+value1 = MaxList(getField("high")[2],getField("high")[1]);
+value2 = MinList(getField("low")[2],getField("low")[1]);
 value3 = value1 - value2;
 value4 = K_Value(9,3);
 value5 = D_Value(9,3);
 
-if(Getfield("Close","tick") < value2 and value3 <= rvalue and value4 < value5) Then
+if(GetQuote("成交") < value2 and value3 <= rvalue) Then
 Begin
     Print(File("C:\Users\sherr\Desktop\XQ\xq.log"),"空單觸發",title,NumToStr(DateTime,0),symbol,NumToStr(Getfield("Close","tick"),0));
     RetVal = 1;
