@@ -44,7 +44,7 @@ value3 = value1 - value2;
 value4 = K_Value(9,3);
 value5 = D_Value(9,3);
 
-if(GetQuote("成交") > value1 and value3 <= rvalue) Then
+if(getField("high","1") > value1 and value3 <= rvalue and value4 > value5) Then
 Begin
     Print(File("C:\Users\sherr\Desktop\XQ\xq.log"),"多單觸發",title,NumToStr(DateTime,0),symbol,NumToStr(Getfield("Close","tick"),0));
     RetVal = 1;
@@ -61,7 +61,7 @@ value3 = value1 - value2;
 value4 = K_Value(9,3);
 value5 = D_Value(9,3);
 
-if(GetQuote("成交") < value2 and value3 <= rvalue) Then
+if(getField("low","1") < value2 and value3 <= rvalue and value4 < value5) Then
 Begin
     Print(File("C:\Users\sherr\Desktop\XQ\xq.log"),"空單觸發",title,NumToStr(DateTime,0),symbol,NumToStr(Getfield("Close","tick"),0));
     RetVal = 1;
