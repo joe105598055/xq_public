@@ -67,3 +67,33 @@ Begin
     RetVal = 1;
 End;
 ```
+
+### sherry 交易多
+```
+input: Length1(13,"低MA");
+input: Length2(34,"高MA");
+value1 = Average(Getfield("Close","5"),Length1);
+value2 = Average(Getfield("Close","5"),Length2);
+value3 = Average(Getfield("Close","5"), 20);
+value4 = K_Value(9,3);
+value5 = D_Value(9,3);
+
+if(value1 cross over value2) and value1 > value3 and value2 > value3 and value4 > value5 and Position = 0 Then SetPosition(1);
+
+if(GetField("Close") > value1 and GetField("Close") > value2 and Position < 0) Then SetPosition(0);
+```
+
+### sherry 交易空
+```
+input: Length1(13,"低MA");
+input: Length2(34,"高MA");
+value1 = Average(Getfield("Close","5"),Length1);
+value2 = Average(Getfield("Close","5"),Length2);
+value3 = Average(Getfield("Close","5"), 20);
+value4 = K_Value(9,3);
+value5 = D_Value(9,3);
+
+if(value1 cross under value2) and value1 < value3 and value2 < value3 and value4 < value5 and Position = 0 Then SetPosition(-1);
+
+if(GetField("Close") < value1 and GetField("Close") < value2 and Position < 0) Then SetPosition(0);
+```
