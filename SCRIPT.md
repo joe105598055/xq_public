@@ -70,6 +70,10 @@ End;
 
 ### sherry 交易多
 ```
+input: profit_point(30, "停利(點)");
+input: loss_point(30, "停損(點)");
+var: long_condition(false);
+var: stop_condition(false);
 input: Length1(13,"低MA");
 input: Length2(34,"高MA");
 value1 = Average(Getfield("Close","5"),Length1);
@@ -78,13 +82,29 @@ value3 = Average(Getfield("Close","5"), 20);
 value4 = K_Value(9,3);
 value5 = D_Value(9,3);
 
-if(value1 cross over value2) and value1 > value3 and value2 > value3 and value4 > value5 and Position = 0 Then SetPosition(1);
+// 13MA 突破 34MA 且兩條均線都要在布林均線上, K > D 
+long_condition = value1 cross over value2 and value1 > value3 and value2 > value3 and value4 > value5;
+stop_condition = Close < value1 and Close < value2; // 停損條件
 
-if(GetField("Close") > value1 and GetField("Close") > value2 and Position < 0) Then SetPosition(0);
+if Position = 0 and long_condition then begin
+	SetPosition(1, MARKET);	// 市價買進
+end;
+
+if Position = 1 and Filled = 1 then begin
+	if profit_point > 0 and Close >= FilledAvgPrice + profit_point then begin // 依照成本價格設定停損/停利
+		SetPosition(0); // 停利
+	end else if stop_condition then begin	
+		SetPosition(0); // 停損
+	end;
+end;
 ```
 
 ### sherry 交易空
 ```
+input: profit_point(30, "停利(點)");
+input: loss_point(30, "停損(點)");
+var: long_condition(false);
+var: stop_condition(false);
 input: Length1(13,"低MA");
 input: Length2(34,"高MA");
 value1 = Average(Getfield("Close","5"),Length1);
@@ -93,7 +113,19 @@ value3 = Average(Getfield("Close","5"), 20);
 value4 = K_Value(9,3);
 value5 = D_Value(9,3);
 
-if(value1 cross under value2) and value1 < value3 and value2 < value3 and value4 < value5 and Position = 0 Then SetPosition(-1);
+// 13MA 慣破 34MA 且兩條均線都要在布林均線下, K < D 
+long_condition = value1 cross under value2 and value1 < value3 and value2 < value3 and value4 < value5;
+stop_condition = Close > value1 and Close > value2; // 停損條件
 
-if(GetField("Close") < value1 and GetField("Close") < value2 and Position < 0) Then SetPosition(0);
+if Position = 0 and long_condition then begin
+	SetPosition(-1, MARKET);	// 市價買進
+end;
+
+if Position = -1 and Filled = -1 then begin
+	if profit_point > 0 and Close <= FilledAvgPrice - profit_point then begin // 依照成本價格設定停損/停利
+		SetPosition(0); // 停利
+	end else if stop_condition then begin	
+		SetPosition(0); // 停損
+	end;
+end;
 ```
