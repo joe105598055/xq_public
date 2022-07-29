@@ -70,8 +70,7 @@ End;
 
 ### sherry 交易多
 ```
-input: profit_point(30, "停利(點)");
-input: loss_point(30, "停損(點)");
+input: profit_point(50, "停利(點)");
 var: long_condition(false);
 var: stop_condition(false);
 input: Length1(13,"低MA");
@@ -84,7 +83,7 @@ value5 = D_Value(9,3);
 
 // 13MA 突破 34MA 且兩條均線都要在布林均線上, K > D 
 long_condition = value1 cross over value2 and value1 > value3 and value2 > value3 and value4 > value5;
-stop_condition = Close < value1 and Close < value2; // 停損條件
+stop_condition = Close < value3; // 停損條件 < 20MA
 
 if Position = 0 and long_condition then begin
 	SetPosition(1, MARKET);	// 市價買進
@@ -101,8 +100,7 @@ end;
 
 ### sherry 交易空
 ```
-input: profit_point(30, "停利(點)");
-input: loss_point(30, "停損(點)");
+input: profit_point(50, "停利(點)");
 var: long_condition(false);
 var: stop_condition(false);
 input: Length1(13,"低MA");
@@ -115,10 +113,10 @@ value5 = D_Value(9,3);
 
 // 13MA 慣破 34MA 且兩條均線都要在布林均線下, K < D 
 long_condition = value1 cross under value2 and value1 < value3 and value2 < value3 and value4 < value5;
-stop_condition = Close > value1 and Close > value2; // 停損條件
+stop_condition = Close > value3; // 停損條件 > 20MA
 
 if Position = 0 and long_condition then begin
-	SetPosition(-1, MARKET);	// 市價買進
+	SetPosition(-1, MARKET); // 市價買進
 end;
 
 if Position = -1 and Filled = -1 then begin
